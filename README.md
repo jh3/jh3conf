@@ -1,3 +1,10 @@
+things to install:
+
+git
+zsh
+tmux
+nvim
+
 other things to install:
 
 fzf
@@ -6,3 +13,4 @@ autojump
 tig
 htop
 fastfetch
+ag
