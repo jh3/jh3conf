@@ -1,20 +1,50 @@
 #!/bin/bash
+set -e
 
-ln -s $HOME/.jh3_dotfiles/hypr $HOME/.config/hypr
-ln -s $HOME/.jh3_dotfiles/i3 $HOME/.config/i3
-ln -s $HOME/.jh3_dotfiles/nvim $HOME/.config/nvim
-ln -s $HOME/.jh3_dotfiles/git/gitconfig $HOME/.gitconfig
+DOTFILES="$HOME/.jh3_dotfiles"
+OS="$(uname -s)"
+
+mkdir -p "$HOME/.config"
+
+# Cross-platform configs
+ln -sfn "$DOTFILES/nvim"           "$HOME/.config/nvim"
+ln -sfn "$DOTFILES/tmux"           "$HOME/.config/tmux"
+ln -sfn "$DOTFILES/kitty"          "$HOME/.config/kitty"
+ln -sfn "$DOTFILES/tmux/tmux.conf" "$HOME/.tmux.conf"
+ln -sfn "$DOTFILES/git/gitconfig"  "$HOME/.gitconfig"
+
+# Linux-only window manager / desktop configs
+if [ "$OS" = "Linux" ]; then
+    ln -sfn "$DOTFILES/hypr"   "$HOME/.config/hypr"
+    ln -sfn "$DOTFILES/i3"     "$HOME/.config/i3"
+    ln -sfn "$DOTFILES/waybar" "$HOME/.config/waybar"
+    ln -sfn "$DOTFILES/rofi"   "$HOME/.config/rofi"
+fi
 
 # Per-machine git identity / tokens / safe.directory entries live here.
 # Seed from the example if it doesn't already exist.
 if [ ! -e "$HOME/.gitconfig.local" ]; then
-    cp $HOME/.jh3_dotfiles/git/gitconfig.local.example $HOME/.gitconfig.local
-    chmod 600 $HOME/.gitconfig.local
+    cp "$DOTFILES/git/gitconfig.local.example" "$HOME/.gitconfig.local"
+    chmod 600 "$HOME/.gitconfig.local"
     echo "Created $HOME/.gitconfig.local — edit it to set user.name / user.email."
 fi
 
-ln -s $HOME/.jh3_dotfiles/tmux $HOME/.config/tmux
-ln -s $HOME/.jh3_dotfiles/tmux/tmux.conf $HOME/.tmux.conf
+# oh-my-zsh + custom symlinks
+bash "$DOTFILES/zsh/install.sh"
 
-# install oh-my-zsh
-#ln -s $HOME/dotfiles/zsh $HOME/.oh-my-zsh/custom
+# tmux plugin manager
+if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+    git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
+    "$HOME/.tmux/plugins/tpm/bin/install_plugins"
+fi
+
+# packer.nvim + plugin sync (first run only — afterwards use :PackerSync inside nvim)
+PACKER_DIR="$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim"
+if [ ! -d "$PACKER_DIR" ]; then
+    git clone --depth 1 https://github.com/wbthomason/packer.nvim "$PACKER_DIR"
+    nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+fi
+
+# Homebrew packages are NOT installed here — slow and opinionated.
+# Install Homebrew, then run:
+#     brew bundle --file=$DOTFILES/brew/Brewfile
