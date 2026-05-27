@@ -40,13 +40,4 @@ return require('packer').startup(function(use)
 		  {'L3MON4D3/LuaSnip'},
 	  }
   }
-
-  -- use {
-  --     '/Users/jh3/Development/jotdown/nvim',
-  --     config = function()
-  --         require('jot').setup({
-  --             decrypt_sensitive = true,
-  --         })
-  --     end
-  -- }
 end)
