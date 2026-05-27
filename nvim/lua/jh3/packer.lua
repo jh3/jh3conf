@@ -18,8 +18,10 @@ return require('packer').startup(function(use)
 	  end
   })
 
-  use('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
-  use('nvim-treesitter/playground')
+  -- Pinned to master: the default branch shipped a breaking API rewrite
+  -- that removes nvim-treesitter.configs and playground's define_modules.
+  use({'nvim-treesitter/nvim-treesitter', branch = 'master', run = ':TSUpdate'})
+  use({'nvim-treesitter/playground', branch = 'master'})
   use('theprimeagen/harpoon')
   use('mbbill/undotree')
   use('m4xshen/autoclose.nvim')
