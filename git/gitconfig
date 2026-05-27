@@ -1,10 +1,11 @@
 # gitconfig
-[user]
-    name = Joe Hassick
-    email = j@joehassick.com
+#
+# Machine-specific values (user.name, user.email, github.token, safe.directory,
+# etc.) live in ~/.gitconfig.local — see git/gitconfig.local.example.
+[include]
+    path = ~/.gitconfig.local
 [github]
     user = jh3
-    accesstoken = REDACTED
 [alias]
     # `git remote prune origin`: remove remote-tracking branches that were deleted from the remote repo
     # `git gc`: cleanup unnecessary files and optimize the local repository
@@ -155,7 +156,7 @@
     excludesfile = ~/.gitignore_global
     attributesfile = ~/.gitattributes_global
     pager = less -FXRS -x2
-    editor = vim
+    editor = nvim
     whitespace = cr-at-eol
 [rerere]
     enabled = true
@@ -176,7 +177,7 @@
 [pager]
     diff = "diff-so-fancy | less --tabs=4 -RFX"
     show = "diff-so-fancy | less --tabs=4 -RFX"
-[url "git@github.com:"]
-    insteadOf = https://github.com/
 [pull]
-	rebase = true
+    rebase = true
+[init]
+    defaultBranch = main

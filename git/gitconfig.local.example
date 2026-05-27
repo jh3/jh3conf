@@ -1,0 +1,15 @@
+# Per-machine git config — copy to ~/.gitconfig.local and edit.
+# Pulled in by the [include] directive in git/gitconfig.
+# DO NOT commit ~/.gitconfig.local — it holds identity and secrets.
+[user]
+    name = Your Name
+    email = you@example.com
+
+# Override the shared github.user if this machine uses a different account.
+# [github]
+#     user = your-work-username
+#     token = ghp_xxx
+
+# Trust dirs that aren't owned by the current user (CI checkouts, shared dirs).
+# [safe]
+#     directory = /path/to/repo
