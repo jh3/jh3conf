@@ -18,10 +18,10 @@ return require('packer').startup(function(use)
 	  end
   })
 
-  -- Pinned to master: the default branch shipped a breaking API rewrite
-  -- that removes nvim-treesitter.configs and playground's define_modules.
-  use({'nvim-treesitter/nvim-treesitter', branch = 'master', run = ':TSUpdate'})
-  use({'nvim-treesitter/playground', branch = 'master'})
+  -- Track main; master is frozen and explicitly does not support nvim >=0.12.
+  -- The old playground plugin is gone — :InspectTree and :EditQuery are
+  -- built into nvim since 0.10.
+  use({'nvim-treesitter/nvim-treesitter', branch = 'main', run = ':TSUpdate'})
   use('theprimeagen/harpoon')
   use('mbbill/undotree')
   use('m4xshen/autoclose.nvim')
