@@ -1,0 +1,58 @@
+# Sourced by interactive zsh shells. Symlinked to ~/.zshrc by install.sh.
+
+# Where this repo lives. install.sh exports DOTFILES; set a sensible default
+# for shells launched outside of install.sh.
+export DOTFILES="${DOTFILES:-$HOME/.jh3}"
+
+# --- zinit bootstrap ---------------------------------------------------------
+ZINIT_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/zinit/zinit.git"
+if [ ! -d "$ZINIT_HOME" ]; then
+    mkdir -p "$(dirname "$ZINIT_HOME")"
+    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+fi
+source "${ZINIT_HOME}/zinit.zsh"
+
+# --- plugins ----------------------------------------------------------------
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-history-substring-search
+# Syntax highlighting must load last.
+zinit light zsh-users/zsh-syntax-highlighting
+
+autoload -Uz compinit && compinit
+
+# --- history ----------------------------------------------------------------
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=20000
+SAVEHIST=20000
+setopt SHARE_HISTORY HIST_IGNORE_DUPS HIST_IGNORE_SPACE INC_APPEND_HISTORY
+
+# --- aliases ----------------------------------------------------------------
+[ -f "$DOTFILES/zsh/aliases.zsh" ] && source "$DOTFILES/zsh/aliases.zsh"
+
+# --- prompt -----------------------------------------------------------------
+if command -v starship >/dev/null 2>&1; then
+    eval "$(starship init zsh)"
+fi
+
+# --- integrations -----------------------------------------------------------
+# fzf keybindings + completion (Arch: pacman ships them under /usr/share/fzf;
+# macOS: under $(brew --prefix)/opt/fzf/shell).
+for f in \
+    /usr/share/fzf/key-bindings.zsh \
+    /usr/share/fzf/completion.zsh \
+    /usr/share/doc/fzf/examples/key-bindings.zsh \
+    /opt/homebrew/opt/fzf/shell/key-bindings.zsh \
+    /opt/homebrew/opt/fzf/shell/completion.zsh; do
+    [ -r "$f" ] && source "$f"
+done
+
+# mise (Omarchy default runtime manager) — activate if present.
+command -v mise >/dev/null 2>&1 && eval "$(mise activate zsh)"
+
+# zoxide — `z foo` jumps to a frecent directory matching "foo", `zi` picks
+# interactively via fzf.
+command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
+
+# Per-machine extras (not committed).
+[ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"

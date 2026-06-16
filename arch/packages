@@ -1,0 +1,23 @@
+# Arch / Omarchy package list. Installed by install.sh on Linux via:
+#   sudo pacman -S --needed - < arch/packages
+# Mac equivalents live in brew/Brewfile.
+
+# Shells / multiplexers / editors (most are already installed on Omarchy)
+zsh
+tmux
+neovim
+git
+
+# CLI tools the dotfiles assume are on PATH
+fzf
+ripgrep
+fd
+the_silver_searcher
+zoxide
+tig
+htop
+fastfetch
+diff-so-fancy
+
+# Wayland clipboard (used by tmux copy-mode-vi yank)
+wl-clipboard

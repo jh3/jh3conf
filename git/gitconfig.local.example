@@ -10,6 +10,15 @@
 #     user = your-work-username
 #     token = ghp_xxx
 
+# Credential helper — pick the one for this machine.
+# macOS:
+# [credential]
+#     helper = osxkeychain
+# Linux (libsecret, package: git-credential-libsecret):
+# [credential]
+#     helper = /usr/lib/git-core/git-credential-libsecret
+# Or use `gh auth setup-git` to let the GitHub CLI manage it.
+
 # Trust dirs that aren't owned by the current user (CI checkouts, shared dirs).
 # [safe]
 #     directory = /path/to/repo

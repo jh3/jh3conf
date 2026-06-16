@@ -1,5 +1,5 @@
 brew "ast-grep"
-brew "autojump"
+brew "zoxide"
 brew "cmake"
 brew "colima"
 brew "coreutils"
